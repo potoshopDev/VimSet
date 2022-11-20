@@ -64,8 +64,10 @@ map <F7> :!g++ -g *.cpp -o main.exe -std=c++17<CR>
 map <F10> :Step<CR>
 map <F11> :Over<CR>
 map <F12> :Evaluate<CR>
-map <F2> :Finish<CR>
+map <F3> :Finish<CR>
+map <F5> :w<CR> :!build.bat<CR>
 
+nmap <leader><C-r> <plug>(lsp-rename)
 inoremap <C-Space> <C-o><a>
 " Use <c-space> to trigger completion.
 inoremap <silent><expr> <c-space> coc#refresh()
@@ -80,16 +82,42 @@ nmap <silent> gr <Plug>(coc-references)
 
 nnoremap <silent> K :call <SID>show_documentation()<CR>
 
-function! s:show_documentation()
-  if (index(['vim','help'], &filetype) >= 0)
-    execute 'h '.expand('<cword>')
-  elseif (coc#rpc#ready())
+function! ShowDocumentation()
+  if CocAction('hasProvider', 'hover')
     call CocActionAsync('doHover')
   else
-    execute '!' . &keywordprg . " " . expand('<cword>')
+    call feedkeys('K', 'in')
   endif
 endfunction
 
+
+autocmd CursorHold * silent call CocActionAsync('highlight')
+
+ "Formatting selected code.
+xmap <leader>F2  <Plug>(coc-format-selected)
+nmap <leader>F2  <Plug>(coc-format-selected)
+
+" Map function and class text objects
+" NOTE: Requires 'textDocument.documentSymbol' support from the language server.
+xmap if <Plug>(coc-funcobj-i)
+omap if <Plug>(coc-funcobj-i)
+xmap af <Plug>(coc-funcobj-a)
+omap af <Plug>(coc-funcobj-a)
+xmap ic <Plug>(coc-classobj-i)
+omap ic <Plug>(coc-classobj-i)
+xmap ac <Plug>(coc-classobj-a)
+omap ac <Plug>(coc-classobj-a)
+
+augroup mygroup
+  autocmd!
+  " Setup formatexpr specified filetype(s).
+  autocmd FileType typescript,json setl formatexpr=CocAction('formatSelected')
+  " Update signature help on jump placeholder.
+  autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
+augroup end
+
+" Apply AutoFix to problem on the current line.
+nmap <leader>qf  <Plug>(coc-fix-current)
 
 " Remap for rename current word
 nmap <leader>[r <Plug>(coc-rename)
@@ -192,4 +220,4 @@ let g:ycm_clangd_args = ['-extra-arg=-std=c++17', '-Wc ++ 17-extensions']
 
 
 ln -s ~/myproject-build/compile_commands.json ~/myproject/
-g:coc_user_config['languageserver'].ccls.initializationOptions.clang.extraargs = ['-std=c++17']
+"g:coc_user_config['languageserver'].ccls.initializationOptions.clang.extraargs = ['-std=c++17']
