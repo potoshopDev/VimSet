@@ -58,7 +58,7 @@ set autoread
 
 "mappings
 
-map <C-n> :NERDTreeToggle<CR>
+map <C-b> :NERDTreeToggle<CR>
 map <F8> :packadd termdebug <CR> :Termdebug <CR>
 map <F7> :!g++ -g *.cpp -o main.exe -std=c++17<CR>
 map <F10> :Step<CR>
@@ -221,3 +221,5 @@ let g:ycm_clangd_args = ['-extra-arg=-std=c++17', '-Wc ++ 17-extensions']
 
 ln -s ~/myproject-build/compile_commands.json ~/myproject/
 "g:coc_user_config['languageserver'].ccls.initializationOptions.clang.extraargs = ['-std=c++17']
+map <C-]> :bn<CR>
+map <C-[> :bp<CR>
