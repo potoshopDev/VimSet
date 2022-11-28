@@ -31,7 +31,8 @@ Plug 'rakr/vim-one'
 
 "colorschemes
 Plug 'joshdick/onedark.vim'
-
+Plug 'ilyokha/vim-xkbswitch'
+Plug 'DeXP/xkb-switch-win'
 
 
 
@@ -51,7 +52,6 @@ set tabstop=4
 set shiftwidth=4
 set noswapfile
 set noshowmode
-set lines=70 columns=200
 set encoding=utf-8
 set autoread
 "set no rnu
@@ -216,10 +216,38 @@ let g:ycm_clangd_uses_ycmd_caching = 0
 " Use installed clangd, not YCM-bundled clangd which doesn't get updates.
 let g:ycm_clangd_binary_path = exepath("clangd")
 
-let g:ycm_clangd_args = ['-extra-arg=-std=c++17', '-Wc ++ 17-extensions']
+let g:ycm_clangd_args = ['-extra-arg=-std=c++17', '-Wc++17-extensions']
 
 
 ln -s ~/myproject-build/compile_commands.json ~/myproject/
 "g:coc_user_config['languageserver'].ccls.initializationOptions.clang.extraargs = ['-std=c++17']
 map <C-]> :bn<CR>
 map <C-[> :bp<CR>
+
+
+"включить проверку орфографии
+setlocal spelllang=ru spell
+
+"Вкл/выкл проверку орфографии:
+:set spell
+
+let g:XkbSwitchEnabled = 1
+let g:XkbSwitchIMappingsTrData = 'charmap.txt'
+let g:XkbSwitchIMappings = ['ru']
+let g:XkbSwitchSkipIMappings =
+        \ {'c'   : ['.', '>', ':', '{<CR>', '/*', '/*<CR>'],
+        \  'cpp' : ['.', '>', ':', '{<CR>', '/*', '/*<CR>']}
+let g:XkbSwitchLoadRIMappings = 0
+let g:XkbSwitchAssistNKeymap = 1    " for commands r and f
+let g:XkbSwitchAssistSKeymap = 1    " for search lines
+set keymap=russian-jcukenwin
+set iminsert=0
+set imsearch=0
+let g:XkbSwitchKeymapNames = {'ru' : 'ru_keymap'}
+let g:XkbSwitchDynamicKeymap = 1
+let g:XkbSwitchIminsertToggleKey = '<C-^>'
+let g:airline_detect_iminsert = 1
+let g:XkbSwitchNLayout = 'us'
+autocmd BufEnter * let b:XkbSwitchILayout = 'us'
+let g:XkbSwitchSkipFt = ['nerdtree']
+set path+=C:\Users\potos\OneDrive\Документы\
